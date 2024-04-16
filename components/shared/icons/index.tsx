@@ -1,3 +1,4 @@
+"use client";
 import DownIcon from "@/components/ui/icons/Down";
 import UpIcon from "@/components/ui/icons/Up";
 import SearchIcon from "@/components/ui/icons/Search";

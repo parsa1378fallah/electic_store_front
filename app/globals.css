@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "vazir";
+  src: url("../public/fonts/vazir/Vazir-Bold-FD-WOL.eot");
+  src: url("../public/fonts/vazir/Vazir-Bold-FD-WOL.eot?#iefix")
+      format("embedded-opentype"),
+    url("../public/fonts/vazir/Vazir-Bold-FD-WOL.woff2") format("woff2"),
+    url("../public/fonts/vazir/Vazir-Bold-FD-WOL.woff") format("woff"),
+    url("../public/fonts/vazir/Vazir-Bold-FD-WOL.ttf") format("truetype");
+}
+
 * {
   direction: rtl;
+  font-family: vazir;
 }
 
 @layer base {
