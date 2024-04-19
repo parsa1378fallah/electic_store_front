@@ -7,9 +7,9 @@ const SearchBar = ({ classes }: { classes: string }) => {
     <div className={cn("flex items-center h-12  w-96", classes)}>
       <Input
         placeholder="جستجو محصولات ..."
-        className="rounded-l-none rounded-r-full  border-none focus:outline-0"
+        className="rounded-l-none rounded-r-full focus-visible:ring-transparent border-none focus:outline-0"
       />
-      <Button className="text-white bg-red-500 rounded-r-none rounded-l-full">
+      <Button className="text-white bg-red-500 rounded-r-none rounded-l-full hover:bg-red-500">
         <Icons name="Search" />
       </Button>
     </div>

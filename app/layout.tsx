@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
+import { ReactQueryClientProvider } from "@/utils/ReactQueryClientProvider";
 import Navbar from "./_components/navbar";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,11 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="w-full flex flex-col">
-        <Navbar />
-        {children}
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body className="w-full flex flex-col">
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }

@@ -1,22 +1,28 @@
 "use client";
 import { useState } from "react";
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import AuthService from "@/services/AuthService";
+import { useRouter } from "next/navigation";
 const RegisterPage = () => {
-  const [userName, setUserName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [userEmail, setUserEamil] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [email, setEamil] = useState("");
+  const [password, setPassword] = useState("");
   const [userPasswordRepeat, setUserPasswordRepeat] = useState("");
+  const router = useRouter();
+  const registerUser = async () => {
+    const data = await AuthService.register({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+    if (!data) return;
+    router.push("/login");
+  };
 
   return (
     <div className="w-full h-full min-h-screen flex justify-center items-center bg-gray-100 px-2">
@@ -31,15 +37,14 @@ const RegisterPage = () => {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="text">نام</Label>
-              {userName}
               <Input
                 id="name"
                 placeholder="مثال : علی"
                 required
                 type="text"
-                value={userName}
+                value={firstName}
                 onChange={(e: ChangeEvent<HTMLInputElement>): void => {
-                  setUserName(e.target.value);
+                  setfirstName(e.target.value);
                 }}
               />
             </div>
@@ -50,9 +55,9 @@ const RegisterPage = () => {
                 placeholder="مثال : رمضانی"
                 required
                 type="text"
-                value={userLastName}
+                value={lastName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setUserLastName(e.target.value);
+                  setlastName(e.target.value);
                 }}
               />
             </div>
@@ -63,9 +68,9 @@ const RegisterPage = () => {
                 placeholder="m@example.com"
                 required
                 type="email"
-                value={userEmail}
+                value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setUserEamil(e.target.value);
+                  setEamil(e.target.value);
                 }}
               />
             </div>
@@ -75,9 +80,9 @@ const RegisterPage = () => {
                 id="password"
                 required
                 type="password"
-                value={userPassword}
+                value={password}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setUserPassword(e.target.value);
+                  setPassword(e.target.value);
                 }}
               />
             </div>
@@ -96,6 +101,7 @@ const RegisterPage = () => {
             <Button
               className="w-full bg-blue-500 text-lg hover:bg-blue-700 py-2 flex justify-center items-center"
               type="submit"
+              onClick={() => registerUser()}
             >
               ثبت نام
             </Button>

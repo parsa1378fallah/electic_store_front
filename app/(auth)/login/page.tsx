@@ -1,3 +1,4 @@
+"use client";
 import {
   CardTitle,
   CardDescription,
@@ -8,8 +9,19 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import { useState } from "react";
+import AuthService from "@/services/AuthService";
+import { useRouter } from "next/navigation";
 const LoginPage = () => {
+  const [email, setEamil] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const loginUser = async () => {
+    console.log({ email, password });
+    const data = await AuthService.login({ email, password });
+    if (!data) return;
+    router.push("/");
+  };
   return (
     <div className="w-full h-full min-h-screen flex justify-center items-center bg-gray-100">
       {" "}
@@ -28,15 +40,27 @@ const LoginPage = () => {
                 placeholder="m@example.com"
                 required
                 type="email"
+                value={email}
+                onChange={(e) => setEamil(e.target.value)}
               />
+              {email}
+              {password}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">پسورد</Label>
-              <Input id="password" required type="password" />
+              {password}
+              <Input
+                id="password"
+                required
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <Button
               className="w-full bg-blue-500 text-lg hover:bg-blue-700 py-2 flex justify-center items-center"
               type="submit"
+              onClick={() => loginUser()}
             >
               ورود
             </Button>
