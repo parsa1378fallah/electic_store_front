@@ -14,13 +14,14 @@ import AuthService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/toast";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserStore, isLogedIn } from "@/redux/slices/loginSlice";
+import { loginUserStore } from "@/redux/slices/loginSlice";
+import { setUserDataStore, userDataStore } from "@/redux/slices/userSlice";
 const LoginPage = () => {
   const [email, setEamil] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const userData = useSelector(userDataStore);
   const loginUser = async () => {
     const data = await AuthService.login({ email, password });
     if (!data) {
@@ -28,6 +29,8 @@ const LoginPage = () => {
       return;
     }
     dispatch(loginUserStore());
+    dispatch(setUserDataStore(data));
+    console.log("store :", userData);
     showToast("success", <p>کاربر عزیز شما با موفقیت وارد شدید</p>);
     router.push("/");
   };
