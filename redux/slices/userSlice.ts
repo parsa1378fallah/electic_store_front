@@ -36,12 +36,12 @@ const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        setUserData: (state: UserState, action: PayloadAction<UserState>) => {
-            return Object.assign(state, action.payload);
+        setUserDataStore: (state: UserState, action: PayloadAction<UserState>) => {
+            return Object.assign(state, action.payload.data);
         }
     }
 })
 
-export const { setUserData } = userSlice.actions;
-export const selectUser = (state: { user: UserState }) => state.user;
+export const { setUserDataStore } = userSlice.actions;
+export const userDataStore = (state: { user: UserState }) => state.user;
 export default userSlice.reducer;
