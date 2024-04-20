@@ -17,36 +17,40 @@ class BaseService {
     async fetch<T>(url: string, options: AxiosRequestConfig = {}): Promise<T> {
         try {
             const response = await axios.get<T>(`${this.baseURL}${url}`, options);
+            console.log(response.data)
             return response.data;
-        } catch (error) {
-            throw new Error('An error occurred while fetching data.');
+        } catch (error: any) {
+            console.log(error)
         }
     }
 
     async Post<T>(url: string, data: any, options: AxiosRequestConfig = {}): Promise<T> {
         try {
             const response = await axios.post<T>(`${this.baseURL}${url}`, data, options);
+            console.log(response.data)
             return response.data;
-        } catch (error) {
-            throw new Error('An error occurred while creating data.');
+        } catch (error: any) {
+            console.log(error)
         }
     }
 
     async update<T>(url: string, data: any, options: AxiosRequestConfig = {}): Promise<T> {
         try {
             const response = await axios.put<T>(`${this.baseURL}${url}`, data, options);
+            console.log(response.data)
             return response.data;
-        } catch (error) {
-            throw new Error('An error occurred while updating data.');
+        } catch (error: any) {
+            console.log(error)
         }
     }
 
     async remove<T>(url: string, options: AxiosRequestConfig = {}): Promise<T> {
         try {
             const response = await axios.delete<T>(`${this.baseURL}${url}`, options);
+            console.log(response.data)
             return response.data;
-        } catch (error) {
-            throw new Error('An error occurred while deleting data.');
+        } catch (error: any) {
+            console.log(error)
         }
     }
 

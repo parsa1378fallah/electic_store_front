@@ -12,14 +12,23 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AuthService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/utils/toast";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserStore, isLogedIn } from "@/redux/slices/loginSlice";
 const LoginPage = () => {
   const [email, setEamil] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const loginUser = async () => {
-    console.log({ email, password });
     const data = await AuthService.login({ email, password });
-    if (!data) return;
+    if (!data) {
+      showToast("success", <p>خطایی رخ داده ! بعدا دوباره تلاش کنید .</p>);
+      return;
+    }
+    dispatch(loginUserStore());
+    showToast("success", <p>کاربر عزیز شما با موفقیت وارد شدید</p>);
     router.push("/");
   };
   return (
@@ -43,12 +52,9 @@ const LoginPage = () => {
                 value={email}
                 onChange={(e) => setEamil(e.target.value)}
               />
-              {email}
-              {password}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">پسورد</Label>
-              {password}
               <Input
                 id="password"
                 required
