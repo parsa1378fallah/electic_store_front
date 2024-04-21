@@ -22,16 +22,12 @@ const LoginPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const userData = useSelector(userDataStore);
+
   const loginUser = async () => {
     const data = await AuthService.login({ email, password });
-    if (!data) {
-      showToast("success", <p>خطایی رخ داده ! بعدا دوباره تلاش کنید .</p>);
-      return;
-    }
+    if (!data) return;
     dispatch(loginUserStore());
     dispatch(setUserDataStore(data));
-    console.log("store :", userData);
-    showToast("success", <p>کاربر عزیز شما با موفقیت وارد شدید</p>);
     router.push("/");
   };
   return (

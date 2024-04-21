@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { showToast } from "@/utils/toast";
 
 
 interface ErrorResponse {
@@ -18,9 +19,10 @@ class BaseService {
         try {
             const response = await axios.get<T>(`${this.baseURL}${url}`, options);
             console.log(response.data)
+            showToast("error", response.data.message);
             return response.data;
         } catch (error: any) {
-            console.log(error)
+            showToast("error", error.response.data.message);
         }
     }
 
@@ -28,9 +30,10 @@ class BaseService {
         try {
             const response = await axios.post<T>(`${this.baseURL}${url}`, data, options);
             console.log(response.data)
+            showToast("success", response.data.message);
             return response.data;
         } catch (error: any) {
-            console.log(error)
+            showToast("error", error.response.data.message);
         }
     }
 
@@ -38,9 +41,10 @@ class BaseService {
         try {
             const response = await axios.put<T>(`${this.baseURL}${url}`, data, options);
             console.log(response.data)
+            showToast("success", response.data.message);
             return response.data;
         } catch (error: any) {
-            console.log(error)
+            showToast("error", error.response.data.message);
         }
     }
 
@@ -48,9 +52,10 @@ class BaseService {
         try {
             const response = await axios.delete<T>(`${this.baseURL}${url}`, options);
             console.log(response.data)
+            showToast("success", response.data.message);
             return response.data;
         } catch (error: any) {
-            console.log(error)
+            showToast("error", error.response.data.message);
         }
     }
 
