@@ -1,35 +1,7 @@
-"use client";
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import AuthService from "@/services/AuthService";
-import { useRouter } from "next/navigation";
-import { showToast } from "@/utils/toast";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUserStore } from "@/redux/slices/loginSlice";
-import { setUserDataStore, userDataStore } from "@/redux/slices/userSlice";
-const LoginPage = () => {
-  const [email, setEamil] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const userData = useSelector(userDataStore);
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 
-  const loginUser = async () => {
-    const data = await AuthService.login({ email, password });
-    if (!data) return;
-    dispatch(loginUserStore());
-    dispatch(setUserDataStore(data));
-    router.push("/");
-  };
+import LoginForm from "./_components/LoginForm";
+const LoginPage = () => {
   return (
     <div className="w-full h-full min-h-screen flex justify-center items-center bg-gray-100">
       {" "}
@@ -40,36 +12,7 @@ const LoginPage = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">ایمیل</Label>
-              <Input
-                id="email"
-                placeholder="m@example.com"
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEamil(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">پسورد</Label>
-              <Input
-                id="password"
-                required
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <Button
-              className="w-full bg-blue-500 text-lg hover:bg-blue-700 py-2 flex justify-center items-center"
-              type="submit"
-              onClick={() => loginUser()}
-            >
-              ورود
-            </Button>
-          </div>
+          <LoginForm />
         </CardContent>
       </Card>
     </div>
