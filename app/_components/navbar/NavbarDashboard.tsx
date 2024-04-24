@@ -1,4 +1,5 @@
 "use client";
+import Link from "@/node_modules/next/link";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserStore } from "@/redux/slices/loginSlice";
@@ -57,7 +58,7 @@ const NavbarDashboard = () => {
               checked={showPanel}
               onCheckedChange={setShowPanel}
             >
-              داشبورد
+              <Link href="/dashboard">داشبورد</Link>
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem onCheckedChange={() => logoutUser()}>
               <p>خروج</p>

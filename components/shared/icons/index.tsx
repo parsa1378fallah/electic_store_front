@@ -12,6 +12,7 @@ import CloseIcon from "@/components/ui/icons/Close";
 import ChevronLeftIcon from "@/components/ui/icons/ChevronLeft";
 import ChevronRightIcon from "@/components/ui/icons/ChevronRight";
 import BellIcon from "@/components/ui/icons/Bell";
+import ProductIcon from "@/components/ui/icons/Product";
 
 const Icons = ({
   name,
@@ -63,6 +64,9 @@ const Icons = ({
       break;
     case "Bell":
       DynamicComponent = BellIcon;
+      break;
+    case "Product":
+      DynamicComponent = ProductIcon;
       break;
     default:
       DynamicComponent = CloseIcon;
