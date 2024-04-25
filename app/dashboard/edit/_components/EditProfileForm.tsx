@@ -19,32 +19,49 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { userDataStore } from "@/redux/slices/userSlice";
+import { userDataStore, setUserDataStore } from "@/redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import Icons from "@/components/shared/icons/index";
+import UserService from "@/services/UserService";
+import { showToast } from "@/utils/toast";
 const ProfileForm = () => {
   const userData = useSelector(userDataStore);
+  const dispatch = useDispatch();
   const FormSchema = z.object({
-    email: z
-      .string({
-        message: "لطفا ایمیل خود را وارد کنید",
-      })
-      .email({
-        message: "وارد کردن ایمیل الزامی است",
-      }),
+    firstName: z.string({ message: "نام کاربر نباید خالی باشد" }),
+    lastName: z.string({ message: "نام خانوادگی نباید خالی باشد" }),
+    address: z.string(),
     password: z.string().min(8, {
       message: "کلمه عبور باید حداقل 8 کارکتر باشد",
     }),
+    birthDate: z.date(),
+    gender: z.string(),
   });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      firstName: userData.firstName || "",
+      lastName: userData.lastName || "",
+      address: userData.address || "",
+      password: userData.password || "",
+      birthDate: userData.birthDate || "",
+      gender: userData.gender || "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof FormSchema>) {}
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    const editedUser = await UserService.editUser(userData.userId, values);
+    dispatch(setUserDataStore(editedUser));
+  }
   return (
     <Form {...form}>
       <form
@@ -60,7 +77,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>نام</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.firstName} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,7 +93,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>نام خانوادگی</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.lastName} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,7 +108,7 @@ const ProfileForm = () => {
             <FormItem>
               <FormLabel>آدرس</FormLabel>
               <FormControl>
-                <Input {...field} value={userData.address} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -107,7 +124,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>رمز عبور</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.password} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,14 +134,43 @@ const ProfileForm = () => {
           <div className="w-full lg:w-1/3">
             <FormField
               control={form.control}
-              name="gender"
+              name="birthDate"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col translate-y-2.5">
                   <FormLabel>تاریخ تولد</FormLabel>
-                  <FormControl>
-                    <Input {...field} value={userData.birthDate} />
-                  </FormControl>
-                  <FormMessage />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "flex flex-row-reverse justify-end gap-3",
+                            !field.value && ""
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span className="flex items-center flex-row-reverse gap-2">
+                              انتخاب کنید
+                              <Icons name="Calendar" />
+                            </span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                        captionLayout="dropdown-buttons"
+                        fromYear={1990}
+                        toYear={2024}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </FormItem>
               )}
             />
@@ -133,7 +179,7 @@ const ProfileForm = () => {
             {" "}
             <FormField
               control={form.control}
-              name="bio"
+              name="gender"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>جنسیت</FormLabel>
@@ -148,9 +194,9 @@ const ProfileForm = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="man">مرد</SelectItem>
+                        <SelectItem value="male">مرد</SelectItem>
                         <SelectItem value="female">زن</SelectItem>
-                        <SelectItem value="none">فرقی نمیکند</SelectItem>
+                        <SelectItem value="other">فرقی نمیکند</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

@@ -7,35 +7,49 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { userDataStore } from "@/redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { format } from "date-fns";
 const ProfileForm = () => {
   const userData = useSelector(userDataStore);
   const FormSchema = z.object({
-    email: z
-      .string({
-        message: "لطفا ایمیل خود را وارد کنید",
-      })
-      .email({
-        message: "وارد کردن ایمیل الزامی است",
-      }),
+    firstName: z.string({ message: "نام کاربر نباید خالی باشد" }),
+    lastName: z.string({ message: "نام خانوادگی نباید خالی باشد" }),
+    address: z.string(),
     password: z.string().min(8, {
       message: "کلمه عبور باید حداقل 8 کارکتر باشد",
     }),
+    birthDate: z.date(),
+    gender: z.string(),
   });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      firstName: userData.firstName || "",
+      lastName: userData.lastName || "",
+      address: userData.address || "",
+      password: userData.password || "",
+      birthDate: () =>
+        userData.bithDate ? format(userData.birthDate, "PPP") : "",
+      gender: userData.gender || "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof FormSchema>) {}
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    console.log("123");
+    console.log(values);
+  }
   return (
     <Form {...form}>
       <form
@@ -51,7 +65,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>نام</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.firstName} disabled />
+                    <Input {...field} disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -67,7 +81,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>نام خانوادگی</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.lastName} disabled />
+                    <Input {...field} disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,7 +96,7 @@ const ProfileForm = () => {
             <FormItem>
               <FormLabel>آدرس</FormLabel>
               <FormControl>
-                <Input {...field} value={userData.address} disabled />
+                <Input {...field} disabled />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +112,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>رمز عبور</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.password} disabled />
+                    <Input {...field} disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,14 +122,13 @@ const ProfileForm = () => {
           <div className="w-full lg:w-1/3">
             <FormField
               control={form.control}
-              name="gender"
+              name="birthDate"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>جنسیت</FormLabel>
+                <FormItem className="flex flex-col translate-y-2.5">
+                  <FormLabel>تاریخ تولد</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.gender} disabled />
+                    <Input {...field} disabled />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -124,12 +137,29 @@ const ProfileForm = () => {
             {" "}
             <FormField
               control={form.control}
-              name="bio"
+              name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>تاریخ تولد</FormLabel>
+                  <FormLabel>جنسیت</FormLabel>
                   <FormControl>
-                    <Input {...field} value={userData.birthDate} disabled />
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        disabled
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="انتخاب کنید" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="male">مرد</SelectItem>
+                          <SelectItem value="female">زن</SelectItem>
+                          <SelectItem value="other">فرقی نمیکند</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
