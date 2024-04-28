@@ -6,21 +6,29 @@ export default new (class UserService extends BaseService {
     }
 
     async editUser(userId: number, editData: {
-        firstName: string;
-        lastName: string;
-        password: string;
-        address: string;
-        birthDate: Date;
-        gender: string;
+        firstName: string | undefined;
+        lastName: string | undefined;
+        password: string | undefined;
+        address: string | undefined;
+        birthDate: Date | undefined;
+        gender: string | undefined;
+        level: string | undefined | null
     }) {
         return this.update<User>(`/user/${userId}`, editData);
+    }
+    async getUsers() {
+        return this.fetch(`/user`)
     }
 
 })()
 
 
 
-interface User {
+export interface User {
+    userId: number,
+    email: string,
+    createdAt: Date,
+    level: string,
     firstName: string;
     lastName: string;
     password: string;

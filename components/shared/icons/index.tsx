@@ -14,7 +14,10 @@ import ChevronRightIcon from "@/components/ui/icons/ChevronRight";
 import BellIcon from "@/components/ui/icons/Bell";
 import ProductIcon from "@/components/ui/icons/Product";
 import CalendarIcon from "@/components/ui/icons/Calendar";
-
+import EditIcon from "@/components/ui/icons/Edit";
+import DeleteIcon from "@/components/ui/icons/Delete";
+import UploadIcon from "@/components/ui/icons/Upload";
+import ProgressIcon from "@/components/ui/icons/Progress";
 const Icons = ({
   name,
   classes,
@@ -71,6 +74,18 @@ const Icons = ({
       break;
     case "Calendar":
       DynamicComponent = CalendarIcon;
+      break;
+    case "Edit":
+      DynamicComponent = EditIcon;
+      break;
+    case "Delete":
+      DynamicComponent = DeleteIcon;
+      break;
+    case "Upload":
+      DynamicComponent = UploadIcon;
+      break;
+    case "Progress":
+      DynamicComponent = ProgressIcon;
       break;
     default:
       DynamicComponent = CloseIcon;

@@ -1,6 +1,5 @@
 import BaseService from "./BaseServices";
-
-export default new (class AuthService extends BaseService {
+const AuthService = new (class AuthService extends BaseService {
     constructor() {
         super('http://localhost:3000/api');
     }
@@ -21,7 +20,7 @@ export default new (class AuthService extends BaseService {
     }
 })()
 
-
+export default AuthService
 
 interface User {
     firstName: string;

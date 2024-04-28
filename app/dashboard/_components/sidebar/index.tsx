@@ -59,7 +59,7 @@ export default function Sidebar({ show = true, setter }) {
           />
           <MenuItem
             name="کاربران"
-            route="/about"
+            route="/dashboard/users"
             icon={<Icons name="User" />}
           />
           <MenuItem

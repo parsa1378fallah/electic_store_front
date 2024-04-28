@@ -19,7 +19,7 @@ class BaseService {
         try {
             const response = await axios.get<T>(`${this.baseURL}${url}`, options);
             console.log(response.data)
-            showToast("error", response.data.message);
+            showToast("success", response.data.message);
             return response.data;
         } catch (error: any) {
             showToast("error", error.response.data.message);
