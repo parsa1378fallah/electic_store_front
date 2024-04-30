@@ -9,6 +9,6 @@ export const store = configureStore({
         posts: postsSlice,
         login: loginSlice,
         user: userSlice,
-        uploadImage: uploadImageSlice
+        imageUpload: uploadImageSlice
     }
 });

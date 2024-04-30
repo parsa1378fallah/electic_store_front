@@ -11,12 +11,12 @@ import { showToast } from "@/utils/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   setUploadedImagePath,
-  uploadImagePathStore,
+  selectUploadedImagePath,
 } from "@/redux/slices/uploadImageSlice";
 import UploadedImage from "./UploadImageDialog";
 export default function UserCard() {
   const dispatch = useDispatch();
-  const uploadedImagePath = useSelector(uploadImagePathStore);
+  const uploadedImagePath = useSelector(selectUploadedImagePath);
 
   const mutation = useMutation({
     mutationFn: UploadImageService.updateUserDataAfterUploadImage,

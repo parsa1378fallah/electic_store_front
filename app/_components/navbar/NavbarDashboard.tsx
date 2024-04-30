@@ -17,11 +17,14 @@ import {
 import Icons from "@/components/shared/icons/index";
 import Image from "@/node_modules/next/image";
 import { userDataStore } from "@/redux/slices/userSlice";
+import { selectUploadedImagePath } from "@/redux/slices/uploadImageSlice";
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const NavbarDashboard = () => {
   const dispatch = useDispatch();
   const userData = useSelector(userDataStore);
+  const uploadedImagePath = useSelector(selectUploadedImagePath);
+
   const [showPanel, setShowPanel] = useState<Checked>(false);
 
   const logoutUser = () => {
@@ -35,15 +38,34 @@ const NavbarDashboard = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {/* <Icons name="User" /> */}
-            <Button variant="outline">
-              <Icons name="User" />
+            <Button variant="outline" className="relative">
+              <Image
+                src={
+                  userData.profileImage
+                    ? userData.profileImage
+                    : "/images/user.png"
+                }
+                width={48}
+                height={48}
+                alt="profile image"
+                className="absolute w-full h-full"
+              />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>
               <div className="w-full flex gap-2">
-                <div className="w-12 h-12 rounded-full flex justify-center items-center border border-red-500">
-                  <Icons name="User" />
+                <div className="w-12 h-12 rounded-full flex justify-center items-center border border-red-500 overflow-hidden">
+                  <Image
+                    src={
+                      userData.profileImage
+                        ? userData.profileImage
+                        : "/images/user.png"
+                    }
+                    width={48}
+                    height={48}
+                    alt="profile image"
+                  />
                 </div>
                 <div className="flex flex-col gap-1 justify-center">
                   <p>

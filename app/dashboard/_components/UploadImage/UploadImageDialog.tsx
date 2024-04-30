@@ -19,27 +19,21 @@ import Icons from "@/components/shared/icons";
 import {
   setSelectedImage,
   setUploadedImagePath,
+  selectUploadedImagePath,
 } from "@/redux/slices/uploadImageSlice";
 import { useDispatch, useSelector } from "react-redux";
 import UploadImageService from "@/services/UploadImage";
-
-const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-const upladPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
-
+import { userDataStore, setUserProfileImage } from "@/redux/slices/userSlice";
 export default function ImageUpload() {
   const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState(0);
 
   const dispatch = useDispatch();
   const selectedImage = useSelector((state) => state.imageUpload?.selectedFile);
-
-  const uploadedImagePath = useSelector(
-    (state) => state.imageUpload?.uploadedImagePath
-  );
+  const userData = useSelector(userDataStore);
+  const uploadedImagePath = useSelector(selectUploadedImagePath);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files?.length) {
-      // dispatch(setSelectedImage(event.target.files[0]));
       const selectedImage = event.target.files[0];
       dispatch(setSelectedImage(selectedImage));
       handleImageUpload(selectedImage);
@@ -56,18 +50,23 @@ export default function ImageUpload() {
     if (!image) return;
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("test", "this is a test");
-    console.log(formData);
-    const res = await UploadImageService.uploadProfileImage(formData);
-    if (res) {
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      const res = await UploadImageService.uploadProfileImage(
+        userData.userId,
+        formData
+      );
+      if (res && res.data && res.data.url) {
+        dispatch(setUploadedImagePath(res.data.url));
+        console.log("aasss", res.data.user);
+        dispatch(setUserProfileImage(res.data.user.profileImage));
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
       setLoading(false);
-      dispatch(setUploadedImagePath(res.data.url));
     }
-
-    console.log(res);
-    return res;
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {

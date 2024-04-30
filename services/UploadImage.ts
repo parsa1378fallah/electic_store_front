@@ -7,19 +7,16 @@ const UploadImageService = new (class UploadImageService extends BaseService {
         super('http://localhost:3000/api');
     }
     async updateUserDataAfterUploadImage(data: UserData) {
-        return this.Post<User>(`/upload/profile-image`, data);
+        return this.Post<Upload>(`/upload/profile-image`, data);
     }
-    async uploadProfileImage(formData: FormData) {
-        return this.Post<User>(`/upload/profile-image`, formData);
+    async uploadProfileImage(userId: number, formData: FormData) {
+        return this.Post<Upload>(`/upload/profile-image/${userId}`, formData);
     }
 })()
 
 export default UploadImageService
 
-interface User {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string
-    // Add more properties as needed
+interface Upload {
+    filename: string,
+    url: string
 }

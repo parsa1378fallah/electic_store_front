@@ -24,8 +24,8 @@ const Icons = ({
   handleClick,
 }: {
   name: string;
-  classes: string;
-  handleClick: Function;
+  classes: string | undefined;
+  handleClick: Function | undefined;
 }) => {
   let DynamicComponent;
 

@@ -1,3 +1,4 @@
+
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ImageUploadState {
@@ -23,10 +24,8 @@ export const imageUploadSlice = createSlice({
   },
 });
 
-export const { setSelectedImage, setUploadedImagePath } =
-  imageUploadSlice.actions;
-
-export const uploadImagePathStore = (state) =>
-  state.imageUpload?.uploadedImagePath;
+export const { setSelectedImage } = imageUploadSlice.actions;
+export const { setUploadedImagePath } = imageUploadSlice.actions;
+export const selectUploadedImagePath = (state: RootState) => state.imageUpload.uploadedImagePath;
 
 export default imageUploadSlice.reducer;
