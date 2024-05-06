@@ -11,6 +11,7 @@ import {
 import { format } from "date-fns";
 import UserService, { User } from "@/services/UserService";
 import EditDialog from "./EditDialog";
+import { convertToJalali } from "@/utils/JallaliMoment";
 const UserTable: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const changeRule = (userId: number, level: "1" | "2") => {
@@ -70,7 +71,7 @@ const UserTable: React.FC = () => {
               {user.level === "1" ? "مدیر" : "کاربر عادی"}
             </TableCell>
             <TableCell className="border border-black">
-              {format(new Date(user.createdAt), "PPP")}
+              {convertToJalali(user.createdAt)}
             </TableCell>
             <TableCell className="border border-black">
               <EditDialog user={user} changeCurrentUserRoll={changeRule} />

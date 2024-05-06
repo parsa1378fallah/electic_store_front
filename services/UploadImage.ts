@@ -6,11 +6,11 @@ const UploadImageService = new (class UploadImageService extends BaseService {
     constructor() {
         super('http://localhost:3000/api');
     }
-    async updateUserDataAfterUploadImage(data: UserData) {
-        return this.Post<Upload>(`/upload/profile-image`, data);
-    }
     async uploadProfileImage(userId: number, formData: FormData) {
         return this.Post<Upload>(`/upload/profile-image/${userId}`, formData);
+    }
+    async uploadCategoryImage(categoryId: number, formData: FormData) {
+        return this.Post<Upload>(`/upload/category-image/${categoryId}`, formData);
     }
 })()
 
