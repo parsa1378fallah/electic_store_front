@@ -19,8 +19,9 @@ import {
   setUploadedImagePath,
   selectUploadedImagePath,
 } from "@/redux/slices/uploadImageSlice";
+import { editCategoryStore } from "@/redux/slices/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { userDataStore, setUserProfileImage } from "@/redux/slices/userSlice";
+import { userDataStore } from "@/redux/slices/userSlice";
 import UploadImageService from "@/services/UploadImage";
 import CategoryService, { Category } from "@/services/CategoryService";
 const EditCategoryDialog = ({ category }: { category: Category }) => {
@@ -55,25 +56,26 @@ const EditCategoryDialog = ({ category }: { category: Category }) => {
         categoryId,
         formData
       );
-      // if (res && res.data && res.data.url) {
-      //   dispatch(setUploadedImagePath(res.data.url));
-      //   dispatch(setUserProfileImage(res.data.user.profileImage));
-      // }
+      if (res.data.url) dispatch(setUploadedImagePath(res.data.url));
+      return res.data.category;
     } catch (error) {
       console.error("Error uploading image:", error);
     } finally {
       setLoading(false);
     }
   };
-  const addCategory = async () => {
+  const editCategory = async () => {
     console.log(category.categoryId, newCategoryName);
     const response = await CategoryService.editCategory(
       category.categoryId,
       newCategoryName
     );
-    console.log(response.data.categoryId);
-    handleImageUpload(selectedImage, response.data.categoryId);
-    console.log(response);
+    const editedCategory = await handleImageUpload(
+      selectedImage,
+      response.data.categoryId
+    );
+    console.log("editedCategory :", editedCategory);
+    if (editedCategory) dispatch(editCategoryStore(editedCategory));
   };
   return (
     <Dialog>
@@ -152,7 +154,7 @@ const EditCategoryDialog = ({ category }: { category: Category }) => {
           />
         </div>
         <DialogFooter>
-          <Button onClick={() => addCategory()}>ویرایش کردن دسته بندی</Button>
+          <Button onClick={() => editCategory()}>ویرایش کردن دسته بندی</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

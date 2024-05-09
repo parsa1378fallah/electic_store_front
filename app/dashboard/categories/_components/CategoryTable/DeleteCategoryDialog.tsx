@@ -9,13 +9,15 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { deleteCategoryStore } from "@/redux/slices/categorySlice";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryService, { Category } from "@/services/CategoryService";
 const DeleteCategoryDialog = ({ category }: { category: Category }) => {
+  const dispatch = useDispatch();
   const deleteCategory = async () => {
     const response = await CategoryService.deleteCategory(category.categoryId);
-    console.log(response);
+    console.log(response.data);
+    dispatch(deleteCategoryStore(response.data));
   };
   return (
     <Dialog>

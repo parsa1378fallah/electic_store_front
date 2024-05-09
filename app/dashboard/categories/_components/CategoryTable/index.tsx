@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -8,21 +8,25 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { format } from "date-fns";
 import CategoryService, { Category } from "@/services/CategoryService";
 import EditDialog from "./EditCategoryDialog";
 import { convertToJalali } from "@/utils/JallaliMoment";
 import Image from "next/image";
 import DeleteCategoryDialog from "./DeleteCategoryDialog";
+import {
+  categoriesStore,
+  setCategoriesStore,
+} from "@/redux/slices/categorySlice";
+import { useDispatch, useSelector } from "react-redux";
 const CategoryTable = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-
+  const dispatch = useDispatch();
+  const categories = useSelector(categoriesStore);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await CategoryService.getCategories();
-        console.log(data);
-        setCategories(data.data);
+        const categories = await CategoryService.getCategories();
+        console.log("index", categories.data);
+        dispatch(setCategoriesStore(categories.data));
       } catch (error) {
         console.error("Error fetching categories:", error);
       }

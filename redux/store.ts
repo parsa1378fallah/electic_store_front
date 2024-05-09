@@ -3,12 +3,14 @@ import postsSlice from "./slices/postSlice";
 import loginSlice from "./slices/loginSlice";
 import userSlice from "./slices/userSlice";
 import uploadImageSlice from "./slices/uploadImageSlice";
+import categorySlice from "./slices/categorySlice";
 
 export const store = configureStore({
     reducer: {
         posts: postsSlice,
         login: loginSlice,
         user: userSlice,
-        imageUpload: uploadImageSlice
+        imageUpload: uploadImageSlice,
+        category: categorySlice
     }
 });

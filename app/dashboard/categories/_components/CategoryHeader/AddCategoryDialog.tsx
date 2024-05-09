@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userDataStore, setUserProfileImage } from "@/redux/slices/userSlice";
 import UploadImageService from "@/services/UploadImage";
 import CategoryService from "@/services/CategoryService";
+import { addCategoryStore } from "@/redux/slices/categorySlice";
 const AddDialog = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [newCategoryName, setNewCategoryName] = useState<string>("");
@@ -55,10 +56,10 @@ const AddDialog = () => {
         categoryId,
         formData
       );
-      if (res && res.data && res.data.url) {
+      if (res.data.url) {
         dispatch(setUploadedImagePath(res.data.url));
-        dispatch(setUserProfileImage(res.data.user.profileImage));
       }
+      return res.data.category;
     } catch (error) {
       console.error("Error uploading image:", error);
     } finally {
@@ -68,8 +69,14 @@ const AddDialog = () => {
   const addCategory = async () => {
     const response = await CategoryService.addCategory(newCategoryName);
     console.log(response.data.categoryId);
-    handleImageUpload(selectedImage, response.data.categoryId);
-    console.log(response);
+    const category = await handleImageUpload(
+      selectedImage,
+      response.data.categoryId
+    );
+    console.log(category);
+    dispatch(addCategoryStore(category));
+    setNewCategoryName("");
+    setSelectedImage(null);
   };
   return (
     <Dialog>
