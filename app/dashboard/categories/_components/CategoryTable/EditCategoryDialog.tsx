@@ -65,7 +65,6 @@ const EditCategoryDialog = ({ category }: { category: Category }) => {
     }
   };
   const editCategory = async () => {
-    console.log(category.categoryId, newCategoryName);
     const response = await CategoryService.editCategory(
       category.categoryId,
       newCategoryName
@@ -74,7 +73,6 @@ const EditCategoryDialog = ({ category }: { category: Category }) => {
       selectedImage,
       response.data.categoryId
     );
-    console.log("editedCategory :", editedCategory);
     if (editedCategory) dispatch(editCategoryStore(editedCategory));
   };
   return (

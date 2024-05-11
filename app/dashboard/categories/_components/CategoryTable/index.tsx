@@ -87,11 +87,8 @@ const CategoryTable = () => {
                 />
               ) : null}
             </TableCell>
-            <TableCell className="border border-black flex justify-center">
-              <EditDialog category={category} />
-            </TableCell>
             <TableCell className="border border-black">
-              <DeleteCategoryDialog category={category} />
+              <EditDialog category={category} />
             </TableCell>
           </TableRow>
         ))}

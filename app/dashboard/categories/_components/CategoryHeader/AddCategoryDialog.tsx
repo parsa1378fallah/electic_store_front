@@ -72,8 +72,9 @@ const AddDialog = () => {
       selectedImage,
       response.data.categoryId
     );
-    console.log(category);
-    dispatch(addCategoryStore(category));
+    category
+      ? dispatch(addCategoryStore(category))
+      : dispatch(addCategoryStore(response.data));
     setNewCategoryName("");
     setSelectedImage(null);
   };

@@ -36,7 +36,7 @@ const UserTable: React.FC = () => {
   }, []);
 
   return (
-    <Table className="  border border-slate-400">
+    <Table className="  border border-slate-400 rounded-2xl">
       <TableHeader className="bg-gray-300">
         <TableRow>
           <TableHead className="w-1/12 text-center border border-black">

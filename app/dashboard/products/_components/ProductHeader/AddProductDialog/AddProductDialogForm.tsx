@@ -39,6 +39,12 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import Icons from "@/components/shared/icons";
+import { useEffect } from "react";
+import CategoryService, { Category } from "@/services/CategoryService";
+import {
+  setCategoriesStore,
+  categoriesStore,
+} from "@/redux/slices/categorySlice";
 const FormSchema = z.object({
   productName: z
     .string({ required_error: "نام محصول نباید خالی باشد" })
@@ -66,6 +72,9 @@ const FormSchema = z.object({
     .max(500, {
       message: "توضیحات نباید بیش از 160 کارکتر باشند",
     }),
+  categoryId: z.coerce.number({
+    required_error: "لطفا دسته بندی را انتخاب کنید",
+  }),
 });
 
 const AddProductDialogForm = () => {
@@ -77,12 +86,14 @@ const AddProductDialogForm = () => {
       productQty: undefined,
       productPrice: undefined,
       productDescription: undefined,
+      categoryId: undefined,
     },
   });
   const dispatch = useDispatch();
   const selectedImage = useSelector((state) => state.imageUpload?.selectedFile);
   const userData = useSelector(userDataStore);
   const uploadedImagePath = useSelector(selectUploadedImagePath);
+  const categories = useSelector(categoriesStore);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -127,7 +138,18 @@ const AddProductDialogForm = () => {
     dispatch(addProductStore(product));
     dispatch(setSelectedImage(null));
   }
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories = await CategoryService.getCategories();
+        dispatch(setCategoriesStore(categories.data));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
+    fetchCategories();
+  }, []);
   return (
     <Form {...form}>
       <form
@@ -188,6 +210,33 @@ const AddProductDialogForm = () => {
                 <SelectContent>
                   <SelectItem value={"1"}>بله</SelectItem>
                   <SelectItem value={"0"}>خیر</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>دسته بندی محصول</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="انتخاب کنید" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categories.map((category: Category) => (
+                    <SelectItem
+                      key={category.categoryId}
+                      value={category.categoryId.toString()}
+                    >
+                      {category.categoryName}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

@@ -37,7 +37,6 @@ const NavbarDashboard = () => {
       <div className="w-10 h-10 flex justify-center items-center border border-red-600 rounded-full overflow-hidden ">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {/* <Icons name="User" /> */}
             <Button variant="outline" className="relative">
               <Image
                 src={
