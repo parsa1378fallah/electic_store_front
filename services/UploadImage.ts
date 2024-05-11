@@ -12,6 +12,9 @@ const UploadImageService = new (class UploadImageService extends BaseService {
     async uploadCategoryImage(categoryId: number, formData: FormData) {
         return this.Post<Upload>(`/upload/category-image/${categoryId}`, formData);
     }
+    async uploadProductImage(productId: number, formData: FormData) {
+        return this.Post<Upload>(`/upload/product-image/${productId}`, formData);
+    }
 })()
 
 export default UploadImageService

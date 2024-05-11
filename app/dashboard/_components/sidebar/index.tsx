@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import Icons from "@/components/shared/icons/index";
 
-export default function Sidebar({ show = true, setter }) {
+export default function Sidebar({ show = true }) {
   const router = useRouter();
 
   // Define our base class
@@ -23,9 +23,6 @@ export default function Sidebar({ show = true, setter }) {
     return (
       <Link
         href={route}
-        onClick={() => {
-          setter((oldVal) => !oldVal);
-        }}
         className={`flex gap-1 [&>*]:my-auto text-md px-6 py-3 border-b-[1px] border-b-black/10 ${colorClass}`}
       >
         <div className="text-xl flex [&>*]:mx-auto w-[30px]">{icon}</div>
@@ -33,15 +30,6 @@ export default function Sidebar({ show = true, setter }) {
       </Link>
     );
   };
-
-  const ModalOverlay = () => (
-    <div
-      className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 z-30`}
-      onClick={() => {
-        setter((oldVal) => !oldVal);
-      }}
-    />
-  );
 
   return (
     <>
@@ -79,7 +67,6 @@ export default function Sidebar({ show = true, setter }) {
           />
         </div>
       </div>
-      {show ? <ModalOverlay /> : <></>}
     </>
   );
 }

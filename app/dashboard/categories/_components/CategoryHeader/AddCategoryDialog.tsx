@@ -68,7 +68,6 @@ const AddDialog = () => {
   };
   const addCategory = async () => {
     const response = await CategoryService.addCategory(newCategoryName);
-    console.log(response.data.categoryId);
     const category = await handleImageUpload(
       selectedImage,
       response.data.categoryId
