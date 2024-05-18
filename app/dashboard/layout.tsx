@@ -1,4 +1,5 @@
 import Sidebar from "./_components/sidebar/index";
+import StickyBox from "react-sticky-box";
 const DashboardLayout = ({
   children,
 }: Readonly<{

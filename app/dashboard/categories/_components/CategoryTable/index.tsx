@@ -9,10 +9,10 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import CategoryService, { Category } from "@/services/CategoryService";
-import EditDialog from "./EditCategoryDialog";
+import EditCategoryDialog from "./EditCategoryDialog";
+import DeleteCategoryDialog from "./DeleteCategoryDialog";
 import { convertToJalali } from "@/utils/JallaliMoment";
 import Image from "next/image";
-import DeleteCategoryDialog from "./DeleteCategoryDialog";
 import {
   categoriesStore,
   setCategoriesStore,
@@ -36,48 +36,31 @@ const CategoryTable = () => {
   }, []);
 
   return (
-    <Table className="  border border-slate-400">
+    <Table>
       <TableHeader className="bg-gray-300">
         <TableRow>
-          <TableHead className="w-1/12 text-center border border-black">
+          <TableHead className="w-1/12 text-center ">
             <p className="text-center">آیدی</p>
           </TableHead>
-          <TableHead className="w-2/12 text-right border border-black">
-            نام دسته بندی
-          </TableHead>
-          <TableHead className="w-2/12 text-right border border-black">
-            زمان آپدیت
-          </TableHead>
-          <TableHead className="w-2/12 text-right border border-black">
-            زمان ساخت
-          </TableHead>
-          <TableHead className="w-3/12 text-right border border-black">
-            تصویر
-          </TableHead>
-          <TableHead className="w-1/12 text-right border border-black">
+          <TableHead className="w-2/12 text-right ">نام دسته بندی</TableHead>
+          <TableHead className="w-2/12 text-right ">زمان آپدیت</TableHead>
+          <TableHead className="w-2/12 text-right ">زمان ساخت</TableHead>
+          <TableHead className="w-1/12 text-center ">تصویر</TableHead>
+          <TableHead className="w-1/12 text-right ">
             <p className="text-center">عمل</p>
-          </TableHead>
-          <TableHead className="w-1/12 text-right border border-black">
-            <p className="text-center">حذف</p>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {categories.map((category: Category) => (
           <TableRow key={category.categoryId}>
-            <TableCell className="border border-black text-center">
+            <TableCell className=" text-center">
               {category.categoryId}
             </TableCell>
-            <TableCell className="border border-black">
-              {category.categoryName}
-            </TableCell>
-            <TableCell className="border border-black">
-              {convertToJalali(category.updatedAt)}
-            </TableCell>
-            <TableCell className="border border-black">
-              {convertToJalali(category.createdAt)}
-            </TableCell>
-            <TableCell className="border border-black">
+            <TableCell>{category.categoryName}</TableCell>
+            <TableCell>{convertToJalali(category.updatedAt)}</TableCell>
+            <TableCell>{convertToJalali(category.createdAt)}</TableCell>
+            <TableCell className=" text-center">
               {category.imageUrl ? (
                 <Image
                   width={20}
@@ -87,8 +70,14 @@ const CategoryTable = () => {
                 />
               ) : null}
             </TableCell>
-            <TableCell className="border border-black">
-              <EditDialog category={category} />
+            <TableCell className="p-0">
+              <TableCell>
+                <EditCategoryDialog category={category} />
+              </TableCell>
+              <TableCell>
+                {" "}
+                <DeleteCategoryDialog category={category} />
+              </TableCell>
             </TableCell>
           </TableRow>
         ))}

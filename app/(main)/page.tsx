@@ -1,14 +1,8 @@
-import { Button } from "@/components/ui/button";
+import DisplayCategories from "./_components/DisplayCategories";
 const MainPage = () => {
   return (
-    <div>
-      صفحه اصلی
-      <Button
-        variant="destructive"
-        className="rounded-full bg-green-300 hover:bg-yellow-300"
-      >
-        دکمه
-      </Button>
+    <div className="w-full flex flex-col">
+      <DisplayCategories classes="my-10" />
     </div>
   );
 };

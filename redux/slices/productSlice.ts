@@ -31,11 +31,14 @@ const productSlice = createSlice({
             const productId = action.payload.productId;
             const index = state.findIndex(product => product.productId === action.payload.productId);
             if (index !== -1) state[index] = action.payload
+        },
+        resetProductsStore() {
+            return initialState;
         }
     }
 });
 
 export const productsStore = (state) => state.product;
-export const { addProductStore, deleteProductStore, setProductsStore, editProductStore } = productSlice.actions;
+export const { addProductStore, deleteProductStore, setProductsStore, editProductStore, resetProductsStore } = productSlice.actions;
 
 export default productSlice.reducer;

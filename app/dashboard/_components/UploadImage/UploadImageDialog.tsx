@@ -59,7 +59,6 @@ export default function ImageUpload() {
       );
       if (res && res.data && res.data.url) {
         dispatch(setUploadedImagePath(res.data.url));
-        console.log("aasss", res.data.user);
         dispatch(setUserProfileImage(res.data.user.profileImage));
       }
     } catch (error) {

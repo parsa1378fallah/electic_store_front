@@ -1,20 +1,16 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import Icons from "@/components/shared/icons/index";
 
 export default function Sidebar({ show = true }) {
   const router = useRouter();
 
-  // Define our base class
   const className = "";
-  // Append class based on state of sidebar visiblity
+
   const appendClass = show ? " ml-0" : " ml-[-250px] md:ml-0";
 
-  // Clickable menu items
   const MenuItem = ({ icon, name, route }) => {
-    // Highlight menu item based on currently displayed route
     const colorClass =
       router.pathname === route
         ? "text-black"
@@ -32,9 +28,9 @@ export default function Sidebar({ show = true }) {
   };
 
   return (
-    <>
+    <div className="w-[250px]">
       <div
-        className={`bg-gray-100 w-[250px] h-screen transition-[margin-left] ease-in-out duration-500 fixed md:static top-0 bottom-0 left-0 z-40${appendClass}`}
+        className={`fixed top-16 right-0 bg-gray-100 w-[250px]  transition-[margin-left] ease-in-out duration-500   bottom-0  z-40${appendClass}`}
       >
         <div className="py-4 flex items-center justify-center">
           <Icons name="Store" />
@@ -67,6 +63,6 @@ export default function Sidebar({ show = true }) {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
