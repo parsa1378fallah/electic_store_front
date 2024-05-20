@@ -8,7 +8,6 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { format } from "date-fns";
 import UserService, { User } from "@/services/UserService";
 import EditDialog from "./EditDialog";
 import { convertToJalali } from "@/utils/JallaliMoment";
@@ -20,7 +19,6 @@ const UserTable: React.FC = () => {
         user.userId === userId ? { ...user, level } : user
       )
     );
-    console.log();
   };
   useEffect(() => {
     const fetchUsers = async () => {
@@ -48,11 +46,14 @@ const UserTable: React.FC = () => {
           <TableHead className="w-3/12 text-right border border-black">
             ایمیل
           </TableHead>
-          <TableHead className="w-2/12 text-right border border-black">
+          <TableHead className="w-1/12 text-right border border-black">
             نقش
           </TableHead>
-          <TableHead className="w-3/12 text-right border border-black">
+          <TableHead className="w-2/12 text-right border border-black">
             زمان ساخت
+          </TableHead>
+          <TableHead className="w-2/12 text-right border border-black">
+            زمان آپدیت
           </TableHead>
           <TableHead className="w-1/12 text-right border border-black">
             عمل
@@ -72,6 +73,9 @@ const UserTable: React.FC = () => {
             </TableCell>
             <TableCell className="border border-black">
               {convertToJalali(user.createdAt)}
+            </TableCell>
+            <TableCell className="border border-black">
+              {convertToJalali(user.updatedAt)}
             </TableCell>
             <TableCell className="border border-black">
               <EditDialog user={user} changeCurrentUserRoll={changeRule} />

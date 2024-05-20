@@ -54,9 +54,9 @@ const CategoryTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {products.map((product: product) => (
-          <TableRow key={product.productId}>
-            <TableCell className=" text-center">{product.productId}</TableCell>
+        {products.map((product: product, index: number) => (
+          <TableRow key={index + 1}>
+            <TableCell className=" text-center">{index + 1}</TableCell>
             <TableCell className=" text-center">
               {product.category.categoryName}
             </TableCell>
@@ -73,6 +73,7 @@ const CategoryTable = () => {
                   height={20}
                   alt={"product image"}
                   src={product.productImageUrl}
+                  className="w-auto h-auto"
                 />
               ) : null}
             </TableCell>

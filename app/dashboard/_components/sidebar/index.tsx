@@ -38,7 +38,7 @@ export default function Sidebar({ show = true }) {
         <div className="flex flex-col">
           <MenuItem
             name="اطلاعات کاربری"
-            route="/dashboard/profile"
+            route="/dashboard"
             icon={<Icons name="User" />}
           />
           <MenuItem

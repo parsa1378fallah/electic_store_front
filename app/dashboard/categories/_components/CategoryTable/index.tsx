@@ -25,7 +25,6 @@ const CategoryTable = () => {
     const fetchCategories = async () => {
       try {
         const categories = await CategoryService.getCategories();
-        console.log("index", categories.data);
         dispatch(setCategoriesStore(categories.data));
       } catch (error) {
         console.error("Error fetching categories:", error);

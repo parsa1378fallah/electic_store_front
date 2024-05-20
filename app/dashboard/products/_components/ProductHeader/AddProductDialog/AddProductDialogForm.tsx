@@ -130,11 +130,14 @@ const AddProductDialogForm = () => {
   };
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     const response = await ProductService.addProduct(values);
-    const product = await handleImageUpload(
+    const newProduct = await handleImageUpload(
       selectedImage,
       response.data.productId
     );
-    dispatch(addProductStore(product));
+    console.log("new product", newProduct);
+    newProduct
+      ? dispatch(addProductStore(newProduct))
+      : dispatch(addProductStore(response.data));
     dispatch(setSelectedImage(null));
   }
   useEffect(() => {

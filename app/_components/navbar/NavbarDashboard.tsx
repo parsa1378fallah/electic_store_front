@@ -14,14 +14,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Icons from "@/components/shared/icons/index";
 import Image from "@/node_modules/next/image";
 import { userDataStore } from "@/redux/slices/userSlice";
 import { selectUploadedImagePath } from "@/redux/slices/uploadImageSlice";
+import { useRouter } from "next/navigation";
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const NavbarDashboard = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const userData = useSelector(userDataStore);
   const uploadedImagePath = useSelector(selectUploadedImagePath);
 
@@ -30,6 +31,9 @@ const NavbarDashboard = () => {
   const logoutUser = () => {
     dispatch(logoutUserStore());
     showToast("error", <p>کاربر عزیز خارج شدید .</p>);
+  };
+  const goToDashboard = () => {
+    router.push("/dashboard");
   };
   return (
     <div className="flex gap-3">
@@ -77,9 +81,9 @@ const NavbarDashboard = () => {
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
               checked={showPanel}
-              onCheckedChange={setShowPanel}
+              onCheckedChange={() => goToDashboard()}
             >
-              <Link href="/dashboard">داشبورد</Link>
+              داشبورد
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem onCheckedChange={() => logoutUser()}>
               <p>خروج</p>

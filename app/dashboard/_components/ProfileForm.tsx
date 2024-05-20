@@ -46,10 +46,6 @@ const ProfileForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log("123");
-    console.log(values);
-  }
   return (
     <Form {...form}>
       <form
