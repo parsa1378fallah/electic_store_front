@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
@@ -34,16 +34,15 @@ import {
   setUploadedImagePath,
   selectUploadedImagePath,
 } from "@/redux/slices/uploadImageSlice";
-import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import Icons from "@/components/shared/icons";
-import { useEffect } from "react";
 import CategoryService, { Category } from "@/services/CategoryService";
 import {
   setCategoriesStore,
   categoriesStore,
 } from "@/redux/slices/categorySlice";
+
 const FormSchema = z.object({
   productName: z
     .string({ required_error: "نام محصول نباید خالی باشد" })
@@ -78,6 +77,7 @@ const FormSchema = z.object({
 
 const AddProductDialogForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [categoriesFetched, setCategoriesFetched] = useState<boolean>(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -141,10 +141,12 @@ const AddProductDialogForm = () => {
     dispatch(setSelectedImage(null));
   }
   useEffect(() => {
+    if (categories.length > 0) return;
     const fetchCategories = async () => {
       try {
         const categories = await CategoryService.getCategories();
         dispatch(setCategoriesStore(categories.data));
+        setCategoriesFetched(true);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }

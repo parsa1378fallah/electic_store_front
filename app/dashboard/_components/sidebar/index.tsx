@@ -61,6 +61,11 @@ export default function Sidebar({ show = true }) {
             route="/dashboard/categories"
             icon={<Icons name="User" />}
           />
+          <MenuItem
+            name="سبد خرید"
+            route="/dashboard/shopping_cart"
+            icon={<Icons name="User" />}
+          />
         </div>
       </div>
     </div>

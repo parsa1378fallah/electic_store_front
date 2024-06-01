@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Icons from "@/components/shared/icons/index";
-const SearchBar = ({ classes }: { classes: string }) => {
+const SearchBar = ({ classes }: { classes?: string }) => {
   return (
     <div className={cn("flex items-center h-12  w-96", classes)}>
       <Input

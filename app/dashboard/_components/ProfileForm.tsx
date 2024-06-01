@@ -48,10 +48,7 @@ const ProfileForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-6  flex flex-col"
-      >
+      <form className="w-full space-y-6  flex flex-col">
         <div className="flex gap-5 w-full">
           <div className="w-1/2">
             <FormField

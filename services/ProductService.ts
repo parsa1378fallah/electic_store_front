@@ -7,7 +7,7 @@ const ProductService = new (class ProductService extends BaseService {
     async addProduct(productData: product) {
         return this.Post<product>(`/product`, productData);
     }
-    async getProducts(params: { categoryId: number } | null) {
+    async getProducts(params: { categoryId?: number | null, productId?: number | null } = { categoryId: null, productId: null }) {
         return this.fetch<product>(`/product`, { params });
     }
     async deleteProduct(productId: number) {
