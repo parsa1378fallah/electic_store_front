@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUserStore } from "@/redux/slices/loginSlice";
 import { setUserDataStore, userDataStore } from "@/redux/slices/userSlice";
 import { Button } from "@/components/ui/button";
+import { User } from "@/services/UserService";
 import {
   Form,
   FormControl,
@@ -43,11 +44,13 @@ export default function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    const data = await AuthService.login(values);
+    const data: { message: string; data: User } = await AuthService.login(
+      values
+    );
     if (!data) return;
     dispatch(loginUserStore());
-    console.log("data :", data);
-    dispatch(setUserDataStore(data.data));
+    const userData: User = { ...data.data };
+    dispatch(setUserDataStore(userData));
     router.push("/");
   }
 

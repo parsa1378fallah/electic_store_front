@@ -25,14 +25,18 @@ export default new (class UserService extends BaseService {
 
 
 export interface User {
-    userId: number,
-    email: string,
-    createdAt: Date,
-    level: string,
-    firstName: string;
-    lastName: string;
-    password: string;
-    address: string;
-    birthDate: Date;
-    gender: string;
+    address: string | null;
+    bio: string | null;
+    birthDate: string | null;
+    createdAt: string | null;
+    email: string | null;
+    firstName: string | null;
+    gender: string | null;
+    lastName: string | null;
+    level: string | null;
+    password: string | null;
+    phoneNumber: string | null;
+    profileImage: string | null;
+    updatedAt: string | null;
+    userId: number;
 }

@@ -1,22 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
-    address: string | null;
-    bio: string | null;
-    birthDate: string | null;
-    createdAt: string | null;
-    email: string | null;
-    firstName: string | null;
-    gender: string | null;
-    lastName: string | null;
-    level: string | null;
-    phoneNumber: string | null;
-    profileImage: string | null;
-    updatedAt: string | null;
-    userId: number;
-}
+import { User } from "@/services/UserService";
 
-const initialState: UserState = {
+const initialState: User = {
     address: null,
     bio: null,
     birthDate: null,
@@ -29,6 +15,7 @@ const initialState: UserState = {
     phoneNumber: null,
     profileImage: null,
     updatedAt: null,
+    password: null,
     userId: 1
 };
 
@@ -36,15 +23,15 @@ const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        setUserDataStore: (state: UserState, action: PayloadAction<UserState>) => {
+        setUserDataStore: (state: User, action: PayloadAction<User>) => {
             return Object.assign(state, action.payload);
         },
-        setUserProfileImage: (state: UserState, action: PayloadAction<string>) => {
+        setUserProfileImage: (state: User, action: PayloadAction<string>) => {
             state.profileImage = action.payload;
         }
     }
 })
 
 export const { setUserDataStore, setUserProfileImage } = userSlice.actions;
-export const userDataStore = (state: { user: UserState }) => state.user;
+export const userDataStore = (state: { user: User }) => state.user;
 export default userSlice.reducer;
