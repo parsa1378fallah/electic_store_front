@@ -46,7 +46,8 @@ export default function LoginForm() {
     const data = await AuthService.login(values);
     if (!data) return;
     dispatch(loginUserStore());
-    dispatch(setUserDataStore(data));
+    console.log("data :", data);
+    dispatch(setUserDataStore(data.data));
     router.push("/");
   }
 

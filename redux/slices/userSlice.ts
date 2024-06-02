@@ -37,7 +37,7 @@ const userSlice = createSlice({
     initialState: initialState,
     reducers: {
         setUserDataStore: (state: UserState, action: PayloadAction<UserState>) => {
-            return Object.assign(state, action.payload.data);
+            return Object.assign(state, action.payload);
         },
         setUserProfileImage: (state: UserState, action: PayloadAction<string>) => {
             state.profileImage = action.payload;
